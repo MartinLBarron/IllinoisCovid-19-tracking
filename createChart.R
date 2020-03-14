@@ -1,16 +1,20 @@
 #' Simple plot of ILinois Covid-19 cases over time
-#' 
 
+
+# Load necessary libraries ------------------------------------------------
 library(tidyverse)
 library(here)
 library(scales)
 
 
+
+# Read Data ---------------------------------------------------------------
 df <- read_csv("data/IL-covid-19-cases.csv") %>%
   mutate(Date=as.Date(Date, "%m/%d/%y")) %>%
  mutate(percentChange=(Illinois-lag(Illinois))/lag(Illinois),
         newcases=Illinois-lag(Illinois))
 
+# Create dataframe with just most recent day --------------------------------
 dfMostRecent <- df %>%
   arrange(Date) %>%
   filter(row_number()==n()) %>%
@@ -19,7 +23,7 @@ dfMostRecent <- df %>%
 
 todayDate <- format(dfMostRecent[[1, "Date"]],"%Y-%m-%d")
 
-
+# Create ploat ------------------------------------------------------------
 ggplot(data=df) +
   geom_line(aes(x=Date, y=Illinois), size=2, col="#155F83") +
   geom_point(data=dfMostRecent, aes(x=Date, y=Illinois), size=4, col="#8F3931")+
@@ -41,5 +45,7 @@ ggplot(data=df) +
         axis.ticks.x=element_line(),
         axis.ticks.length.x = unit(3, "pt"))
 
+
+# Save results ------------------------------------------------------------
 fname <- paste0("chart-", todayDate, ".png")
 ggsave(here("output", fname), w=8, h=6)
