@@ -26,6 +26,7 @@ todayDate <- format(dfMostRecent[[1, "Date"]],"%Y-%m-%d")
 # Create ploat ------------------------------------------------------------
 ggplot(data=df) +
   geom_line(aes(x=Date, y=Illinois), size=2, col="#155F83") +
+  geom_point(aes(x=Date, y=Illinois), size=2, col="#155F83")+
   geom_point(data=dfMostRecent, aes(x=Date, y=Illinois), size=4, col="#8F3931")+
   geom_text(data=dfMostRecent, aes(x=Date-1, y=Illinois, label=lab), hjust="right")+
   theme_minimal()+
