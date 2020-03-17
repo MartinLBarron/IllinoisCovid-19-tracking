@@ -11,8 +11,8 @@ library(scales)
 # Read Data ---------------------------------------------------------------
 df <- read_csv("data/IL-covid-19-cases.csv") %>%
   mutate(Date=as.Date(Date, "%m/%d/%y")) %>%
- mutate(percentChange=(Illinois-lag(Illinois))/lag(Illinois),
-        newcases=Illinois-lag(Illinois))
+ mutate(percentChange=(Cases-lag(Cases))/lag(Cases),
+        newcases=Cases-lag(Cases))
 
 # Create dataframe with just most recent day --------------------------------
 dfMostRecent <- df %>%
@@ -25,10 +25,10 @@ todayDate <- format(dfMostRecent[[1, "Date"]],"%Y-%m-%d")
 
 # Create ploat ------------------------------------------------------------
 ggplot(data=df) +
-  geom_line(aes(x=Date, y=Illinois), size=2, col="#155F83") +
-  geom_point(aes(x=Date, y=Illinois), size=2, col="#155F83")+
-  geom_point(data=dfMostRecent, aes(x=Date, y=Illinois), size=4, col="#8F3931")+
-  geom_text(data=dfMostRecent, aes(x=Date-1, y=Illinois, label=lab), hjust="right")+
+  geom_line(aes(x=Date, y=Cases), size=2, col="#155F83") +
+  geom_point(aes(x=Date, y=Cases), size=2, col="#155F83")+
+  geom_point(data=dfMostRecent, aes(x=Date, y=Cases), size=4, col="#8F3931")+
+  geom_text(data=dfMostRecent, aes(x=Date-1, y=Cases, label=lab), hjust="right")+
   theme_minimal()+
   ggtitle("Illinois Coronavirus Cases") +
   xlab("") + 

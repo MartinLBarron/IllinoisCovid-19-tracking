@@ -12,8 +12,8 @@ library(scales)
 
 df <- read_csv("data/IL-covid-19-cases.csv") %>%
   mutate(Date=as.Date(Date, "%m/%d/%y")) %>%
-  mutate(percentChange=(Illinois-lag(Illinois))/lag(Illinois),
-         newcases=Illinois-lag(Illinois),
+  mutate(percentChange=(Cases-lag(Cases))/lag(Cases),
+         newcases=Cases-lag(Cases),
          growthFactor=newcases/lag(newcases))
 
 
