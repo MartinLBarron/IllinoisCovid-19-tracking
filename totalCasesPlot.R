@@ -5,6 +5,8 @@
 library(tidyverse)
 library(here)
 library(scales)
+library(rtweet)
+library(git2r)
 
 
 
@@ -50,3 +52,8 @@ ggplot(data=df) +
 # Save results ------------------------------------------------------------
 fname <- paste0("chart-", todayDate, ".png")
 ggsave(here("output", fname), w=8, h=6)
+
+
+
+
+
