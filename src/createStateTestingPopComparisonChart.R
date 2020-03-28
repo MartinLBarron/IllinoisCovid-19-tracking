@@ -1,23 +1,23 @@
 
-createStateTestingComparisonChart <- function(stateTestingData){
+createStateTestingpopComparisonChart <- function(stateData){
   
   #get state population data
   statePop <- read_csv("data/nst-est2019-01.csv")
   
   #Join state testing data and state population
-  stateTestingData<- inner_join(stateTestingData, statePop, by=c("state"="StateAbbr"))
+  stateData<- inner_join(stateData, statePop, by=c("state"="StateAbbr"))
   
   #Keep most recent data for each
-  stateTestingData <- stateTestingData %>%
+  stateData <- stateData %>%
     group_by(State) %>%
     arrange(Date) %>%
-    filter(row_number()==n()) %>%
+    #filter(row_number()==n()) %>%
     mutate(testsPer10k = total/(Population/10000) )
   
-  IL <- stateTestingData %>%
+  IL <- stateData %>%
     filter(state=="IL")
   
-  gg <- ggplot(data=stateTestingData)+
+  gg <- ggplot(data=stateData)+
     geom_col(aes(x=reorder(state, -testsPer10k), y=testsPer10k))+
     geom_col(data=IL, aes(x=state, y=testsPer10k), fill="blue")+
     theme_minimal()+
@@ -34,7 +34,7 @@ createStateTestingComparisonChart <- function(stateTestingData){
           axis.line.x = element_line(color="black", size = .5),
           axis.ticks.x=element_line(),
           axis.ticks.length.x = unit(3, "pt"))
-  
+
   return(gg)
   
 }

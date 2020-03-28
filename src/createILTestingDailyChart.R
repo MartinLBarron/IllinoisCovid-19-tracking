@@ -11,7 +11,7 @@ createILTestingDailyChart <- function(IllinoisData){
   theme_minimal()+
     ggtitle("Illinois Coronavirus Tests Administered (Daily)") +
     xlab("") + 
-    ylab("Count of Administered Tests")+
+    ylab("Count of administered tests")+
     scale_x_date(breaks="2 days", date_labels = "%b-%d") +
     labs(caption = "data from https://bit.ly/3b65n9V")+
     theme(panel.grid.minor.x=element_blank(),
