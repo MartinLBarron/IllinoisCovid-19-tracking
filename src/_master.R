@@ -16,10 +16,12 @@ library(gghighlight)
 #get my time series of Illinois Data
 IllinoisData <- read_csv("data/IL-covid-19-cases.csv") %>%
   mutate(Date=as.Date(Date, "%m/%d/%y")) %>%
-  mutate(percentChange=(Cases-lag(Cases))/lag(Cases),
-         newcases=Cases-lag(Cases),
+  mutate(newCases=Cases-lag(Cases),
          newDeaths=Deaths-lag(Deaths),
-         growthFactor=newcases/lag(newcases)) %>%
+         newTests=Tested-lag(Tested),
+         percentChangeCases=(Cases-lag(Cases))/lag(Cases),
+         percentChangeTests=(Tested-lag(Tested))/lag(Tested),
+         percentChangeDeaths=(Deaths-lag(Deaths))/lag(Deaths)) %>%
   arrange(Date)
 
 #Get state-level data from Johns Hopkins
@@ -47,9 +49,7 @@ if (ILdt!=statedt){
 # Load individual graph functions -----------------------------------------
 
 #IL data only
-source("src/createILCasesChart.R")
-source("src/createILTestingChart.R")
-source("src/createILDeathsChart.R")
+source("src/createCumulativeChart.R")
 
 #require state data
 source("src/createStateCasesComparisonChart.R")
@@ -58,29 +58,50 @@ source("src/createStateDeathsComparisonChart.R")
 source('src/createStateTestingPopComparisonChart.R')
 
 source("src/createILTestingDailyChart.R")
-source("src/createDailyGrowthCharts.R")
+source("src/createDailyCasesGrowthCharts.R")
+source("src/createDailyDeathsGrowthCharts.R")
 
 # source("src/createUSDeathsCharts.R")
 # source("src/createILDeathsChart.R")
 
-# Run functions -----------------------------------------------------------
+# Run charts -----------------------------------------------------------
 
-#cumulative IL Charts
-chartILCasesCummulative <- createILCasesChart(IllinoisData)
-chartILCasesCummulative
-fname <- paste0("cases-", mostRecentDate, ".png")
-saveChart(chartILCasesCummulative, fname, 8, 6)
+#cumulative Cases Charts ------------------------------------------------------
 
+createCumulativeChart(IllinoisData, "Cases", Cases, newCases, percentChangeCases, "2020-03-01")
+createCumulativeChart(IllinoisData, "Tests", Tested, newTests, percentChangeTests, "2020-03-08")
+createCumulativeChart(IllinoisData, "Deaths", Deaths, newDeaths, percentChangeDeaths, "2020-03-15")
+
+
+chartPercentChange <- createCasesPercentChangeChart(IllinoisData)
+chartPercentChange
+fname <- paste0("daily-percent-change-", mostRecentDate, ".png")
+saveChart(chartPercentChange, fname, 8, 6)
+
+
+# cumulative Testing Charts -----------------------------------------------
 
 chartILTestingCummulative <- createILTestingChart(IllinoisData)
 chartILTestingCummulative
 fname <- paste0("tests-", mostRecentDate, ".png")
 saveChart(chartILTestingCummulative, fname, 8, 6)
 
+
+# cumulative deaths charts ------------------------------------------------
+
 chartILDeathsCummulative <- createILDeathsChart(IllinoisData)
 chartILDeathsCummulative
 fname <- paste0("deaths-", mostRecentDate, ".png")
 saveChart(chartILDeathsCummulative, fname, 8, 6)
+
+
+chartDeathsPercentChange <- createDeathsPercentChangeChart(IllinoisData)
+chartDeathsPercentChange
+fname <- paste0("daily-deaths-percent-change-", mostRecentDate, ".png")
+saveChart(chartDeathsPercentChange, fname, 8, 6)
+
+
+# State comparisions ------------------------------------------------------
 
 
 #Create State Comparison Chart - Cases
@@ -101,13 +122,6 @@ fname <- paste0("states-deaths-", mostRecentDate, ".png")
 saveChart(chartStateDeathsComparison, fname, 8, 6)
 
 
-
-
-#create Daily Change Charts
-chartPercentChange <- createPercentChangeChart(IllinoisData)
-chartPercentChange
-fname <- paste0("daily-percent-change-", mostRecentDate, ".png")
-saveChart(chartPercentChange, fname, 8, 6)
 
 
 #create IL testing charts daily
@@ -138,10 +152,12 @@ tweetResults <- function(){
   
   # Tweet these after IL data is updated----------------------------------------
   
-  fname <- paste0("cases-", mostRecentDate, ".png")
+  fname <- paste0("cummulative-cases-", mostRecentDate, ".png")
   outfile <- here("output", fname)
   tweetText <- "Cummulative confirmed cases in Illinois.\n#covid19 #coronavirus #IL #Illinois"
   post_tweet(tweetText, media = outfile)
+
+  
   
   fname <- paste0("daily-percent-change-", mostRecentDate, ".png")
   outfile <- here("output", fname)
@@ -149,12 +165,12 @@ tweetResults <- function(){
   post_tweet(tweetText, media = outfile)
   
   
-  fname <- paste0("tests-", mostRecentDate, ".png")
+  fname <- paste0("cummulative-tested-", mostRecentDate, ".png")
   outfile<- here("output", fname)
   tweetText <- "Cummulative covid-19 tests administered in IL.\n#covid19 #coronavirus #IL #Illinois"
   post_tweet(tweetText, media = outfile)
   
-  fname <- paste0("deaths-", mostRecentDate, ".png")
+  fname <- paste0("cummulative-deaths-", mostRecentDate, ".png")
   outfile<- here("output", fname)
   tweetText <- "Cummulative covid-19 deaths in IL.\n#covid19 #coronavirus #IL #Illinois"
   post_tweet(tweetText, media = outfile)

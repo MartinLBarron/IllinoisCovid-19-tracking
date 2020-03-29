@@ -35,7 +35,7 @@ createILDeathsChart <- function(df){
           axis.line.x = element_line(color="black", size = .5),
           axis.ticks.x=element_line(),
           axis.ticks.length.x = unit(3, "pt"))
-gg
+
   return(gg)
 }
 

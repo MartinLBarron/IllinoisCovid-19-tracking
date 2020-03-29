@@ -1,7 +1,7 @@
 #' Daily growth of cases charts
 
 
-createPercentChangeChart <- function(df){
+createCasesPercentChangeChart <- function(df){
   
   
   # Limit to data since March 1 ---------------------------------------------
@@ -12,13 +12,13 @@ createPercentChangeChart <- function(df){
   # calculate average percent change ----------------------------------------
   
   
-  meangrowth <- mean(df$percentChange)
+  meangrowth <- mean(df$percentChangeCases)
   meangrowthlabel = paste("Avg.", percent(meangrowth))
   
   
   # Create plot -------------------------------------------------------------
   gg<- ggplot(data=df) +
-    geom_col(aes(x=Date, y=percentChange), fill="#155F83") +
+    geom_col(aes(x=Date, y=percentChangeCases), fill="#155F83") +
     geom_hline(yintercept = meangrowth, linetype="dashed")+
     theme_minimal()+
     scale_y_continuous(labels = scales::percent)+

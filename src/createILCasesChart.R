@@ -7,7 +7,7 @@ createILCasesChart <- function(df){
     arrange(Date) %>%
     filter(row_number()==n()) %>%
     mutate(Date=as.Date(Date),
-           lab=paste0(newcases, " new cases\n", percent(percentChange), " growth"))
+           lab=paste0(newCases, " new cases\n", percent(percentChangeCases), " growth"))
   
   # Create plot ------------------------------------------------------------
   gg<- ggplot(data=df) +
