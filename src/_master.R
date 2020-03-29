@@ -143,6 +143,12 @@ tweetResults <- function(){
   tweetText <- "Cummulative confirmed cases in Illinois.\n#covid19 #coronavirus #IL #Illinois"
   post_tweet(tweetText, media = outfile)
   
+  fname <- paste0("daily-percent-change-", mostRecentDate, ".png")
+  outfile <- here("output", fname)
+  tweetText <- "% change in new coronavirus cases in Illinois change since March 1.\n#covid19 #coronavirus #IL #Illinois"
+  post_tweet(tweetText, media = outfile)
+  
+  
   fname <- paste0("tests-", mostRecentDate, ".png")
   outfile<- here("output", fname)
   tweetText <- "Cummulative covid-19 tests administered in IL.\n#covid19 #coronavirus #IL #Illinois"
@@ -154,7 +160,9 @@ tweetResults <- function(){
   post_tweet(tweetText, media = outfile)
   
   
-  # Tweet this after Johns Hopkins data updated. ------------------------------
+  
+  
+  # Tweet this after Covid tracking data updated. ------------------------------
   fname <- paste0("states-cases-", mostRecentDate, ".png")
   outfile<- here("output", fname)
   tweetText <- "Comparing IL cases trajectory to other states.\n#covid19 #coronavirus #IL #Illinois"
@@ -183,20 +191,13 @@ tweetResults <- function(){
   
   
   
-  fname <- paste0("percent_change-", mostRecentDate, ".png")
-  outfile <- here("output", fname)
-  tweetText <- "% change in new coronavirus cases in Illinois change since March 1.\n#covid19 #coronavirus #IL #Illinois"
-  post_tweet(tweetText, media = outfile)
-  
+
   fname <- paste0("IL-testing-daily-", mostRecentDate, ".png")
   outfile<- here("output", fname)
   tweetText <- "Number of daily covid-19 tests reported.\n#covid19 #coronavirus #IL #Illinois"
   post_tweet(tweetText, media = outfile)
   
 
-  
-
-  
   # Tweet this after Johns Hopkins data updated. ------------------------------
   fname <- paste0("state-comparison-", mostRecentDate, ".png")
   outfile<- here("output", fname)
