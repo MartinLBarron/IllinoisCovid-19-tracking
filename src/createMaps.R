@@ -6,7 +6,6 @@ library(tidyverse)
 
 createGrowthMap <- function(){
   
-  
   # Get County Data ---------------------------------------------------------
   
   #data from https://github.com/nytimes/covid-19-data
@@ -20,9 +19,6 @@ createGrowthMap <- function(){
   states_shp <- read_rds("data/us_states_transformed.rds") %>%
     filter(STATEFP != "72") #No data for PR
   counties_shp$GEOID <- as.character(counties_shp$GEOID)
-  
-  # clean county data -------------------------------------------------------
-  
   
   # merge county data with shape file ---------------------------------------
   maxCases<-max(counties_df$cases)
