@@ -33,15 +33,11 @@ createCumulativeChart <- function(df, varname, var, new, pchange, startDate){
           axis.ticks.length.x = unit(3, "pt"))
   
   fname <- paste0("cummulative-", tolower(varname), "-", mostRecentDate, ".png")
-  saveChart(chartILCasesCummulative, fname, 8, 6)
+  saveChart(gg, fname, 8, 6)
   
   return(gg)
   
 }
-createCumulativeChart(IllinoisData, "Cases", Cases, newCases, percentChangeCases, "2020-03-01")
-createCumulativeChart(IllinoisData, "Tests", Tested, newTests, percentChangeTests, "2020-03-08")
-createCumulativeChart(IllinoisData, "Deaths", Deaths, newDeaths, percentChangeDeaths, "2020-03-15")
-
 
 saveChart <- function(chart, filename, width, height){
   ggsave(filename=here("output", filename), 
